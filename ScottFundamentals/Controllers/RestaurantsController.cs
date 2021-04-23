@@ -227,9 +227,9 @@ namespace ScottFundamentals.Controllers
             {
                 AllCuisineTypes = allCuisine,
                 Results = new List<Result>(),
-                Since = new DateTime(2010)
+                Since = new DateTime(2000,1,1)
             };
-
+            
             return View(model);
         }
 
@@ -247,14 +247,14 @@ namespace ScottFundamentals.Controllers
                 q = q.Where(x => x.CoffeeShop == searchModel.CoffeeShop);
             }
 
-            //if (searchModel.CuisineType?.Id != 0)
-            //{
-            //    q = q.Where(x => x.CuisineTypeId == searchModel.CuisineType.Id);
-            //}
+            if (searchModel.CuisineTypeId != 0)
+            {
+                q = q.Where(x => x.CuisineTypeId == searchModel.CuisineTypeId);
+            }
 
             if (searchModel.Since.Year > 1900)
             {
-                q = q.Where(x => x.Since.Date == searchModel.Since.Date);
+                q = q.Where(x => x.Since.Date >= searchModel.Since.Date);
             }
 
             var items = await q
@@ -268,11 +268,11 @@ namespace ScottFundamentals.Controllers
                     CoffeeShop = r.CoffeeShop
                 })
                 .ToListAsync();
-            
+
             var allCuisine = await _context.CuisineTypes.AsNoTracking().OrderBy(x => x.Name).ToListAsync();
             searchModel.Results = items;
             searchModel.AllCuisineTypes = allCuisine;
-            
+
             //return PartialView("_SearchResult", searchModel);
             return View(searchModel);
         }

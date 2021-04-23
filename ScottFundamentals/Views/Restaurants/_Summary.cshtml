@@ -1,0 +1,25 @@
+﻿@model Restaurant.Models.Dtos.RestaurantVm
+
+<section>
+    <h3>@Model.Name</h3>
+
+    <div>Cuisine: @Model.CuisineType.Name</div>
+    <div>Since: @Model.Since</div>
+    
+    @{
+        if (@Model.CoffeeShop)
+        {
+            <div>Has Coffee Shop</div>
+        }
+        else
+        {
+            <div>No CoffeeShop</div>
+        }
+    }
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+        <a asp-action="Details" asp-route-id="@Model.Id">Details</a> |
+        <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+    </div>
+    <hr/>
+</section>

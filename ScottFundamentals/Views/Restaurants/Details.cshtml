@@ -40,3 +40,13 @@
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+<div>
+    @await Component.InvokeAsync("SearchRestaurant", new { name ="2", coffeeShop = false })
+</div>

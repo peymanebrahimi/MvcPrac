@@ -209,13 +209,72 @@ namespace ScottFundamentals.Controllers
             var restaurant = await _context.Restaurants.FindAsync(id);
             _context.Restaurants.Remove(restaurant);
             await _context.SaveChangesAsync();
-            
+
             return RedirectToAction(nameof(Index));
         }
 
         private bool RestaurantExists(Guid id)
         {
             return _context.Restaurants.Any(e => e.Id == id);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Search()
+        {
+            var allCuisine = await _context.CuisineTypes.AsNoTracking().OrderBy(x => x.Name).ToListAsync();
+
+            var model = new RestaurantSearchFormModel()
+            {
+                AllCuisineTypes = allCuisine,
+                Results = new List<Result>(),
+                Since = new DateTime(2010)
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Search(RestaurantSearchFormModel searchModel)
+        {
+            var q = _context.Restaurants.AsQueryable();
+            if (!string.IsNullOrWhiteSpace(searchModel.Name))
+            {
+                q = q.Where(x => x.Name.Contains(searchModel.Name));
+            }
+
+            if (searchModel.CoffeeShop)
+            {
+                q = q.Where(x => x.CoffeeShop == searchModel.CoffeeShop);
+            }
+
+            //if (searchModel.CuisineType?.Id != 0)
+            //{
+            //    q = q.Where(x => x.CuisineTypeId == searchModel.CuisineType.Id);
+            //}
+
+            if (searchModel.Since.Year > 1900)
+            {
+                q = q.Where(x => x.Since.Date == searchModel.Since.Date);
+            }
+
+            var items = await q
+                .AsNoTracking()
+                .Select(r => new Result()
+                {
+                    CuisineType = r.CuisineType,
+                    Id = r.Id,
+                    Name = r.Name,
+                    Since = r.Since,
+                    CoffeeShop = r.CoffeeShop
+                })
+                .ToListAsync();
+            
+            var allCuisine = await _context.CuisineTypes.AsNoTracking().OrderBy(x => x.Name).ToListAsync();
+            searchModel.Results = items;
+            searchModel.AllCuisineTypes = allCuisine;
+            
+            //return PartialView("_SearchResult", searchModel);
+            return View(searchModel);
         }
     }
 }

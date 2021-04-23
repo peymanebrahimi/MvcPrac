@@ -1,0 +1,107 @@
+﻿@model Restaurant.Models.Dtos.RestaurantSearchFormModel
+
+<div class="row">
+    <div class="col-md-4">
+        @*data-ajax="true"
+            data-ajax-method="POST"
+            data-ajax-mode="replace"
+            data-ajax-update="#ajaxresult"*@
+        <form asp-action="Search">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                    <label asp-for="CuisineTypeId" class="control-label"></label>
+                    <select asp-for="CuisineTypeId" class="form-control" asp-items="ViewBag.CuisineTypeId"></select>
+                </div>*@
+            <div class="form-group">
+                <label asp-for="CuisineType" class="control-label"></label>
+                <select asp-for="CuisineType" class="form-control"
+                        asp-items="@(new SelectList(Model.AllCuisineTypes, "Id", "Name"))">
+                    <option>Please select one</option>
+                </select>
+                <span asp-validation-for="CuisineType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Since" class="control-label"></label>
+                <input asp-for="Since" class="form-control" />
+                <span asp-validation-for="Since" class="text-danger"></span>
+            </div>
+
+            <label asp-for="CoffeeShop" class="control-label">CoffeeShop</label>
+            <div class="form-group form-check-inline">
+                <input class="form-check-input" id="CoffeeShopYes" type="radio" asp-for="CoffeeShop" value="true" />
+                <label class="form-check-label" for="CoffeeShopYes">Yes</label>
+            </div>
+            <div class="form-group form-check-inline">
+                <input class="form-check-input" id="CoffeeShopNo" type="radio" asp-for="CoffeeShop" value="false" />
+                <label class="form-check-label" for="CoffeeShopNo">No</label>
+            </div>
+
+
+
+
+            <div class="form-group">
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+
+            @*<div id="ajaxresult">
+                @await Html.PartialAsync("_SearchResult", Model)
+
+            </div>*@
+        </form>
+
+    </div>
+</div>
+
+
+
+<section>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CuisineType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Since)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CoffeeShop)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Results)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CuisineType.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Since)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CoffeeShop)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>
+

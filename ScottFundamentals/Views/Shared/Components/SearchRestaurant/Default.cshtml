@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Restaurant.Models.Dtos.RestaurantVm>
+
+
+<h3>View Component Sample</h3>
+https://docs.microsoft.com/en-us/aspnet/core/mvc/views/view-components?view=aspnetcore-5.0
+
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>@item.Name</li>
+    }
+</ul>

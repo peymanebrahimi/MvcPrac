@@ -1,5 +1,3 @@
-using System;
-
 namespace ScottFundamentals.Models
 {
     public class ErrorViewModel

@@ -7,6 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Restaurant.DataAccess.Ef.Core;
+using Restaurant.DataAccess.Ef.Infrastructure;
 
 namespace ScottFundamentals
 {
@@ -19,13 +22,16 @@ namespace ScottFundamentals
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IRestaurantRepository, RestaurantRepository>();
+
+            services.AddDbContext<RestaurantDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddControllersWithViews();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -70,7 +76,7 @@ namespace ScottFundamentals
             //    var greeting = configuration["Greeting"];
             //    await context.Response.WriteAsync(greeting);
             //});
-            
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

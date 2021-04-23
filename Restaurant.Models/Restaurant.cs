@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ScottFundamentals.Models
+namespace Restaurant.Models
 {
     public class Restaurant
     {
@@ -9,12 +9,6 @@ namespace ScottFundamentals.Models
         public CuisineType CuisineType { get; set; }
         public int CuisineId { get; set; }
         public DateTime Since { get; set; }
-        
-    }
 
-    public class CuisineType
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
     }
 }

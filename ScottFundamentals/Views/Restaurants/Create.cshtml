@@ -1,0 +1,64 @@
+﻿@model Restaurant.Models.Dtos.RestaurantEditVm
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Restaurant</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="CuisineTypeId" class="control-label"></label>
+                <select asp-for="CuisineTypeId" class="form-control" asp-items="ViewBag.CuisineTypeId"></select>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="CuisineTypeId" class="control-label"></label>
+                <select asp-for="CuisineTypeId" class="form-control"
+                        asp-items="@(new SelectList(Model.AllCuisineTypes,"Id","Name"))">
+                    <option>Please select one</option>
+                </select>
+                <span asp-validation-for="CuisineTypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Since" class="control-label"></label>
+                <input asp-for="Since" class="form-control" />
+                <span asp-validation-for="Since" class="text-danger"></span>
+            </div>
+            
+            <label asp-for="CoffeeShop" class="control-label">CoffeeShop</label>
+            <div class="form-group form-check-inline">
+                <input class="form-check-input" id="CoffeeShopYes" type="radio" asp-for="CoffeeShop" value="true"/>
+                <label class="form-check-label" for="CoffeeShopYes">Yes</label>
+            </div> 
+            <div class="form-group form-check-inline">
+                <input class="form-check-input" id="CoffeeShopNo" type="radio" asp-for="CoffeeShop" value="false"/>
+                <label class="form-check-label" for="CoffeeShopNo">No</label>
+            </div>
+            
+            
+
+            
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

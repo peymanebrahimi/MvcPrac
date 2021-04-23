@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace Restaurant.Models
+namespace Restaurant.Models.Dtos
 {
-    public class Restaurant
+    public class RestaurantVm
     {
         public Guid Id { get; set; }
+
         public string Name { get; set; }
         public CuisineType CuisineType { get; set; }
-        public int CuisineTypeId { get; set; }
         public DateTime Since { get; set; }
         public bool CoffeeShop { get; set; }
     }
